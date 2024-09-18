@@ -43,10 +43,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
-        - language: c-cpp
-          build-mode: autobuild
         - language: csharp
-          build-mode: none
+          build-mode: autobuild
         - language: java-kotlin
           build-mode: none # This mode only analyzes Java. Set this to 'autobuild' or 'manual' to analyze Kotlin too.
         - language: python
