@@ -16,8 +16,8 @@ on:
     branches: [ "alpha_release" ]
   pull_request:
     branches: [ "alpha_release" ]
-  schedule:
-    - cron: '44 22 * * 1'
+  # schedule:
+  #   - cron: '29 1 * * 6'
 
 jobs:
   analyze:
@@ -44,13 +44,13 @@ jobs:
       matrix:
         include:
         - language: c-cpp
-          build-mode: manual
+          build-mode: autobuild
         - language: csharp
-          build-mode: autobuild
+          build-mode: none
         - language: java-kotlin
-          build-mode: autobuild # This mode only analyzes Java. Set this to 'autobuild' or 'manual' to analyze Kotlin too.
+          build-mode: none # This mode only analyzes Java. Set this to 'autobuild' or 'manual' to analyze Kotlin too.
         - language: python
-          build-mode: autobuild
+          build-mode: none
         # CodeQL supports the following values keywords for 'language': 'c-cpp', 'csharp', 'go', 'java-kotlin', 'javascript-typescript', 'python', 'ruby', 'swift'
         # Use `c-cpp` to analyze code written in C, C++ or both
         # Use 'java-kotlin' to analyze code written in Java, Kotlin or both
@@ -85,9 +85,12 @@ jobs:
     - if: matrix.build-mode == 'manual'
       shell: bash
       run: |
-        ./configure
-        make
-        make install
+        echo 'If you are using a "manual" build mode for one or more of the' \
+          'languages you are analyzing, replace this with the commands to build' \
+          'your code, for example:'
+        echo '  make bootstrap'
+        echo '  make release'
+        exit 1
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v3
